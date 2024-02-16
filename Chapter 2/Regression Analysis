@@ -1,0 +1,36 @@
+from matplotlib import pyplot as plt
+import numpy as np
+from scipy.optimize import curve_fit
+
+
+def function(N):      
+    return N
+
+class algorithm():
+    def linear_model(n, a, b):
+        return a*n + b
+    
+    def quadratic_model(n, a, b):
+        return a*n*n + b*n
+
+    def regression(xs, ys, func, model, left=0, right=10000, cut=100):
+        if func:
+            ys = [func(x) for x in xs]
+        
+        [(a,b), _]   = curve_fit(model, np.array(xs), np.array(ys))
+        # a, b = round(a, 5), round(b, 5)
+        
+        x = np.linspace(left, right, cut)
+        y = model(x, a, b)
+
+        plt.plot(x, y, label='', color='b')
+        plt.plot(xs, ys, marker='o', linestyle='', color='r')
+        plt.xlabel('X-axis')
+        plt.ylabel('Y-axis')
+        plt.title("algorithm Analysis")
+        plt.show()
+
+xs = [0.54654, 2.1516, 3.1891, 4.45465, 5.2546846]
+ys = [1.1, 1.915561, 2.8165165, 4.00352165, 6.561165]
+
+algorithm.regression(xs, ys, None, algorithm.linear_model, 0, 8, 100)
